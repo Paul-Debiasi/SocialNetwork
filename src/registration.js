@@ -49,29 +49,46 @@ export default class Registration extends React.Component {
                 {this.state.error && <div>Oops, something went wrong!</div>}
                 <div className="reg-form">
                     <div className="first-form">
-                        <input
-                            name="first"
-                            placeholder="first name..."
-                            onChange={(e) => this.handleChange(e)}
-                        ></input>
-                        <input
-                            name="last"
-                            placeholder="last name..."
-                            onChange={(e) => this.handleChange(e)}
-                        ></input>
-                        <input
-                            name="email"
-                            placeholder="email..."
-                            onChange={(e) => this.handleChange(e)}
-                        ></input>
-                        <input
-                            name="password"
-                            placeholder="password"
-                            type="password"
-                            onChange={(e) => this.handleChange(e)}
-                        ></input>
-                        <button onClick={() => this.submit()}>Register!</button>
-                        <Link to="/login">Click here to Log in!</Link>
+                        <div className="fist-name">
+                            <input
+                                name="first"
+                                placeholder="first name..."
+                                onChange={(e) => this.handleChange(e)}
+                            ></input>
+                        </div>
+                        <div className="last-name">
+                            <input
+                                name="last"
+                                placeholder="last name..."
+                                onChange={(e) => this.handleChange(e)}
+                            ></input>
+                        </div>
+                        <div className="email-inp">
+                            <input
+                                name="email"
+                                placeholder="email..."
+                                onChange={(e) => this.handleChange(e)}
+                            ></input>
+                        </div>
+                        <div className="psw-inp">
+                            <input
+                                name="password"
+                                placeholder="password"
+                                type="password"
+                                onChange={(e) => this.handleChange(e)}
+                            ></input>
+                        </div>
+                        <button
+                            className="reg-btn"
+                            onClick={() => this.submit()}
+                        >
+                            Register!
+                        </button>
+                        <div className="login-link">
+                            <Link className="log-link" to="/login">
+                                Click here to Log in!
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

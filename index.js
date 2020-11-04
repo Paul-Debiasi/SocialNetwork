@@ -8,6 +8,10 @@ const compression = require("compression");
 const db = require("./db.js");
 const bcrypt = require("./bc.js");
 const csurf = require("csurf");
+const cryptoRandomString = require("crypto-random-string");
+const secretCode = cryptoRandomString({
+    length: 6,
+});
 
 app.use(csurf());
 
@@ -70,6 +74,37 @@ app.get("/welcome", (req, res) => {
         res.sendFile(__dirname + "/index.html");
     }
 });
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    console.log("req.body:", req.body);
+    if (email && password) {
+        db.userEmail(email).then(({ rows }) => {
+            if (rows.length !== 0) {
+                const hash = rows[0].password;
+                bcrypt
+                    .compare(password, hash)
+                    .then((auth) => {
+                        if (auth) {
+                            req.session.userId = {
+                                id: rows[0].id,
+                                first: rows[0].first,
+                                last: rows[0].last,
+                                email: email,
+                            };
+                            req.session.user.profile = true;
+                            res.json("/logo");
+                        } else {
+                            console.log("Something went wrong!");
+                        }
+                    })
+                    .catch((err) => {
+                        console.log("Err in matching the password: ", err);
+                    });
+            }
+        });
+    }
+});
 // The * rout is gonna catch all the routs
 app.get("*", function (req, res) {
     // console.log("My star");
@@ -83,3 +118,4 @@ app.get("*", function (req, res) {
 app.listen(8080, function () {
     console.log("I'm listening.");
 });
+// req.session = null and redirect to welcome page

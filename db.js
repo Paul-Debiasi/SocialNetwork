@@ -13,3 +13,14 @@ module.exports.user = (first, last, email, password) => {
         [first, last, email, password]
     );
 };
+
+exports.userEmail = (email) => {
+    return db.query(`SELECT * FROM users WHERE LOWER(email) = LOWER($1)`, [
+        email,
+    ]);
+};
+
+exports.resetPsw = (password) => {
+    return db.query(`SELECT * FROM my_table
+	WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes';`);
+};

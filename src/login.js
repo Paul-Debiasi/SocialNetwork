@@ -44,6 +44,7 @@ export default class Login extends React.Component {
                 <div className="updated">
                     <div></div>
                     <h2>LOG IN</h2>
+                    {/* <Link to="/welcome#">Click here to Register!</Link> */}
                 </div>
                 {this.state.error && <div>Oops, something went wrong!</div>}
                 <div className="reg-form">

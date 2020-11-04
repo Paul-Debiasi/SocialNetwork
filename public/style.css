@@ -44,9 +44,9 @@ body {
 }
 .first-form {
     display: flex;
+    flex-direction: column;
     align-self: center;
-    width: 70%;
-    justify-content: space-between;
+    width: 30%;
 }
 
 .small-logo {
@@ -56,4 +56,32 @@ body {
 .s-logo {
     width: 100px;
     height: 100px;
+}
+
+.login-link {
+    font-style: none;
+    /* width: 40%; */
+    align-self: center;
+}
+.log-link {
+    text-decoration: none;
+    color: white;
+    width: 100%;
+}
+.psw-inp {
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+}
+.email-inp {
+    margin-top: 10px;
+}
+.last-name {
+    margin-top: 10px;
+}
+.fist-name {
+    margin-top: 10px;
+}
+.reg-btn {
+    margin-top: 10px;
 }
