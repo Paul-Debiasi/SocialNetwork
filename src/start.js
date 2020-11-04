@@ -8,7 +8,7 @@ const userIsLoggedIn = location.pathname != "/welcome";
 if (!userIsLoggedIn) {
     elem = <Welcome />;
 } else {
-    elem = <div></div>;
+    // elem = <div></div>;
     elem = <Logo />;
 }
 // Is only call once per project (will appended my code to the DOM)

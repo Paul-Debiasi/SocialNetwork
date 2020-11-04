@@ -48,3 +48,12 @@ body {
     width: 70%;
     justify-content: space-between;
 }
+
+.small-logo {
+    background-image: linear-gradient(to top, #283048, #859398, #283048);
+    height: 100%;
+}
+.s-logo {
+    width: 100px;
+    height: 100px;
+}

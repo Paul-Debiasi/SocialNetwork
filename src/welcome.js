@@ -1,6 +1,8 @@
 import React from "react";
 import Registration from "./registration";
-// import Logo from "./images/logo.jpg";
+import Login from "./login";
+import { HashRouter, Route } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 export default function Welcome() {
     return (
@@ -8,10 +10,16 @@ export default function Welcome() {
             <div className="my-title">
                 <h1 className="title">Welcome To The Social-Dev</h1>
             </div>
+            <div></div>
             <div className="wrap-logo">
                 <img className="my-logo" src="static/images/logo.jpg" />
             </div>
-            <Registration />
+            <HashRouter>
+                <div>
+                    <Route exact path="/" component={Registration} />
+                    <Route path="/login" component={Login} />
+                </div>
+            </HashRouter>
         </div>
     );
 }

@@ -1,9 +1,7 @@
 import React from "react";
-// import axios from "axios";
 import axios from "./axios";
-import { Link } from "react-router-dom";
-
-export default class Registration extends React.Component {
+// import { Link } from "react-router-dom";
+export default class Login extends React.Component {
     constructor() {
         super();
         this.state = {};
@@ -23,7 +21,7 @@ export default class Registration extends React.Component {
     submit() {
         console.log("about to submit!!!");
         axios
-            .post("/register", this.state)
+            .post("/login", this.state)
             .then((response) => {
                 console.log("response", response);
                 if (response.data.success) {
@@ -42,23 +40,14 @@ export default class Registration extends React.Component {
         console.log("this.state.error: ", this.state.error);
         return (
             <div>
+                {/* <Logo /> */}
                 <div className="updated">
                     <div></div>
-                    <h2>Keep Updated on the tech News !</h2>
+                    <h2>LOG IN</h2>
                 </div>
                 {this.state.error && <div>Oops, something went wrong!</div>}
                 <div className="reg-form">
                     <div className="first-form">
-                        <input
-                            name="first"
-                            placeholder="first name..."
-                            onChange={(e) => this.handleChange(e)}
-                        ></input>
-                        <input
-                            name="last"
-                            placeholder="last name..."
-                            onChange={(e) => this.handleChange(e)}
-                        ></input>
                         <input
                             name="email"
                             placeholder="email..."
@@ -71,7 +60,6 @@ export default class Registration extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         ></input>
                         <button onClick={() => this.submit()}>Register!</button>
-                        <Link to="/login">Click here to Log in!</Link>
                     </div>
                 </div>
             </div>
