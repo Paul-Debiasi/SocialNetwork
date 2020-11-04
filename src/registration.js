@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
+import axios from "./axios";
 
 export default class Registration extends React.Component {
     constructor() {
@@ -14,7 +15,7 @@ export default class Registration extends React.Component {
             {
                 [e.target.name]: e.target.value,
             },
-            () => console.log("this.state in the callback: ")
+            () => console.log("this.state in the callback:", this.state)
         );
     }
 
@@ -40,32 +41,37 @@ export default class Registration extends React.Component {
         console.log("this.state.error: ", this.state.error);
         return (
             <div>
-                <h2>Keep Updated on the new tech news !</h2>
+                <div className="updated">
+                    <div></div>
+                    <h2>Keep Updated on the tech News !</h2>
+                </div>
                 {this.state.error && <div>Oops, something went wrong!</div>}
-                <form>
-                    <input
-                        name="first"
-                        placeholder="first name..."
-                        onChange={(e) => this.handleChange(e)}
-                    ></input>
-                    <input
-                        name="last"
-                        placeholder="last name..."
-                        onChange={(e) => this.handleChange(e)}
-                    ></input>
-                    <input
-                        name="email"
-                        placeholder="email..."
-                        onChange={(e) => this.handleChange(e)}
-                    ></input>
-                    <input
-                        name="password"
-                        placeholder="password"
-                        type="password"
-                        onChange={(e) => this.handleChange(e)}
-                    ></input>
-                    <button onClick={() => this.submit()}>Register!</button>
-                </form>
+                <div className="reg-form">
+                    <div className="first-form">
+                        <input
+                            name="first"
+                            placeholder="first name..."
+                            onChange={(e) => this.handleChange(e)}
+                        ></input>
+                        <input
+                            name="last"
+                            placeholder="last name..."
+                            onChange={(e) => this.handleChange(e)}
+                        ></input>
+                        <input
+                            name="email"
+                            placeholder="email..."
+                            onChange={(e) => this.handleChange(e)}
+                        ></input>
+                        <input
+                            name="password"
+                            placeholder="password"
+                            type="password"
+                            onChange={(e) => this.handleChange(e)}
+                        ></input>
+                        <button onClick={() => this.submit()}>Register!</button>
+                    </div>
+                </div>
             </div>
         );
     }

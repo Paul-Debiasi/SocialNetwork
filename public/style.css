@@ -1,0 +1,50 @@
+body {
+    background-image: linear-gradient(to top, #283048, #859398, #283048);
+    height: 100%;
+}
+.title {
+    font-family: Helvetica;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: white;
+}
+.my-title {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
+.wrap-logo {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
+.my-logo {
+    height: 320px;
+    width: 35%;
+    border-radius: 50%;
+    border: white 2px solid;
+}
+.updated {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    font-family: Helvetica;
+    font-weight: 200;
+    letter-spacing: 2px;
+    margin-top: 40px;
+    color: white;
+}
+.reg-form {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    margin-top: 50px;
+    /* width: 90%; */
+    /* justify-content: space-between; */
+}
+.first-form {
+    display: flex;
+    align-self: center;
+    width: 70%;
+    justify-content: space-between;
+}

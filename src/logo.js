@@ -1,11 +1,14 @@
-// import React from "react";
-// import Logo from "./logo"; // Tell webpack this JS file uses this image
+import React from "react";
+// import logo from ""; // Tell webpack this JS file uses this image
 
-// console.log(logo); // /logo.84287d09.png
+console.log(logo); // /logo.84287d09.png
 
-// function Logo() {
-//     // Import result is the URL of your image
-//     return <img src={logo} alt="Logo" />;
-// }
+export default function Welcome() {
+    // Import result is the URL of your image
 
-// export default Logo;
+    return (
+        <div>
+            <img src="static/images/logo.jpg" alt="Logo" />;
+        </div>
+    );
+}
