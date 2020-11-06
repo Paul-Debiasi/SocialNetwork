@@ -14,13 +14,31 @@ module.exports.user = (first, last, email, password) => {
     );
 };
 
+module.exports.insertIntoReset = (email, code) => {
+    return db.query(
+        `INSERT INTO reset_codes(email, code)
+		VALUES($1,$2) RETURNING * `,
+        [email, code]
+    );
+};
+
 exports.userEmail = (email) => {
     return db.query(`SELECT * FROM users WHERE LOWER(email) = LOWER($1)`, [
         email,
     ]);
 };
-
-exports.resetPsw = (password) => {
-    return db.query(`SELECT * FROM my_table
-	WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes';`);
+exports.updatePsw = (hash, email) => {
+    return db.query(`UPDATE users SET password = $1 WHERE email = $2`, [
+        hash,
+        email,
+    ]);
+};
+exports.code = (email) => {
+    return db.query(
+        `SELECT * FROM reset_codes
+	WHERE CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes' AND email = $1
+	ORDER BY id DESC
+	LIMIT 1`,
+        [email]
+    );
 };

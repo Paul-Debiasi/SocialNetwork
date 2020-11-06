@@ -7,7 +7,7 @@ if (process.env.NODE_ENV == "production") {
     secrets = require("./secrets.json");
 }
 
-const ses = new AWS.SES({
+const ses = new aws.SES({
     accessKeyId: secrets.AWS_KEY,
     secretAccessKey: secrets.AWS_SECRET,
     region: "eu-west-1",

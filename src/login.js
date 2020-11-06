@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "./axios";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 export default class Login extends React.Component {
     constructor() {
         super();
@@ -61,6 +61,9 @@ export default class Login extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         ></input>
                         <button onClick={() => this.submit()}>Register!</button>
+                        <Link className="log-link" to="/ResetPassword">
+                            Reset your Password!
+                        </Link>
                     </div>
                 </div>
             </div>
