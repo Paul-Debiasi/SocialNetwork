@@ -23,9 +23,11 @@ module.exports.insertIntoReset = (email, code) => {
 };
 
 exports.userEmail = (email) => {
-    return db.query(`SELECT * FROM users WHERE LOWER(email) = LOWER($1)`, [
-        email,
-    ]);
+    return db.query(
+        `SELECT * FROM users WHERE LOWER(email) = LOWER($1)
+	`,
+        [email]
+    );
 };
 exports.updatePsw = (hash, email) => {
     return db.query(`UPDATE users SET password = $1 WHERE email = $2`, [

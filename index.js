@@ -83,15 +83,23 @@ app.post("/login", (req, res) => {
     console.log("req.body:", req.body);
     if (email && password) {
         db.userEmail(email).then(({ rows }) => {
+            const { id } = rows;
+            console.log("rows:", rows);
             if (rows.length !== 0) {
                 const hash = rows[0].password;
+                console.log("Hashing:", hash);
                 bcrypt
                     .compare(password, hash)
                     .then((auth) => {
                         if (auth) {
-                            req.session.userId = id;
-                            req.session.user.profile = true;
-                            res.json("/logo");
+                            console.log("auth:", auth);
+                            req.session.userId = rows[0].id;
+                            console.log(
+                                "req.session.userId:",
+                                req.session.userId
+                            );
+                            // req.session.user.profile = true;
+                            res.json({ success: true });
                         } else {
                             console.log("Something went wrong!");
                         }
