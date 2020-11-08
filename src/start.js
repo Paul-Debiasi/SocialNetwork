@@ -2,15 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
 // import App from "./App";
-import Logo from "./logo";
+import App from "./App";
 
 let elem;
 const userIsLoggedIn = location.pathname != "/welcome";
 if (!userIsLoggedIn) {
     elem = <Welcome />;
 } else {
-    elem = <Logo />;
-    // elem = <App></App>;
+    elem = <App />;
 }
 // Is only call once per project (will appended my code to the DOM)
 ReactDOM.render(

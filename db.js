@@ -44,3 +44,13 @@ exports.code = (email) => {
         [email]
     );
 };
+
+exports.userInfo = (id) => {
+    return db.query(`SELECT * FROM users WHERE id = $1`, [id]);
+};
+exports.userImage = (profileImage, id) => {
+    return db.query(
+        `UPDATE users SET image = $1 WHERE id = $2 RETURNING image `,
+        [profileImage, id]
+    );
+};

@@ -85,3 +85,24 @@ body {
 .reg-btn {
     margin-top: 10px;
 }
+
+.uploader {
+    width: 500px;
+    background: white;
+    border: 1px solid #ccc;
+    transition: 1.1s ease-out;
+    position: absolute;
+    top: 250px;
+    left: 30%;
+    z-index: 9999;
+}
+
+.uploader,
+h2 {
+    border-bottom: 1px solid #ccc;
+    padding: 1rem;
+    margin: 0;
+}
+.uploader .content {
+    padding: 1rem;
+}

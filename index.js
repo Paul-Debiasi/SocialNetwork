@@ -12,6 +12,10 @@ const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
 const { response } = require("express");
 const { hash } = require("bcryptjs");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+const s3 = require("./s3");
 const secretCode = cryptoRandomString({
     length: 6,
 });
@@ -45,6 +49,23 @@ if (process.env.NODE_ENV != "production") {
     // if our project is on heroku
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 app.post("/register", (req, res) => {
     console.log("Hit the post register route!!!");
     const { first, last, email, password } = req.body;
@@ -72,7 +93,7 @@ app.post("/register", (req, res) => {
 app.get("/welcome", (req, res) => {
     console.log("welcome");
     if (req.session.userId) {
-        res.redirect("/logo");
+        res.redirect("/App");
     } else {
         res.sendFile(__dirname + "/index.html");
     }
@@ -112,14 +133,6 @@ app.post("/login", (req, res) => {
     }
 });
 // The * rout is gonna catch all the routs
-app.get("*", function (req, res) {
-    // console.log("My star");
-    if (!req.session.userId) {
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-    }
-});
 
 app.post("/password/reset/start", (req, res) => {
     const { email } = req.body;
@@ -179,6 +192,50 @@ app.post("/password/reset/verify", (req, res) => {
             .catch((err) => {
                 console.log("Error on the Code:", err);
             });
+    }
+});
+
+app.post("/images", uploader.single("file"), s3.upload, (req, res) => {
+    const { id } = req.body;
+    const { filename } = req.file;
+    // we need to send response to Vue, so .then part can run, otherwise it will only run .catch in script.js
+    if (req.file) {
+        const url = `https://s3.amazonaws.com/spicedling/${filename}`;
+        console.log("My data:", url, id);
+        db.userImage(url, id)
+            .then(({ rows }) => {
+                rows = rows[0];
+                console.log("UserImage:", rows);
+                res.json(rows);
+            })
+            .catch((err) => {
+                console.log("error in posting image: ", err);
+                res.json({
+                    success: false,
+                });
+            });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
+app.get("/user", (req, res) => {
+    const { userId } = req.session;
+    db.userInfo(userId)
+        .then(({ rows }) => {
+            res.json(rows[0]);
+        })
+        .catch(() => {});
+    console.log("The route is working");
+});
+app.get("*", function (req, res) {
+    // console.log("My star");
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
     }
 });
 
