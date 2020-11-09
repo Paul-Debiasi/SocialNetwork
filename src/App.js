@@ -3,6 +3,9 @@ import Logo from "./components/logo";
 import ProfilePic from "./components/ProfilePic";
 import Uploader from "./components/Uploader";
 import axios from "./axios";
+import { BrowserRouter, Route } from "react-router-dom";
+import Profile from "./components/Profile";
+import BioEditor from "./components/ BioEditor";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -12,6 +15,7 @@ export default class App extends React.Component {
             // lastName: "Debiasito",
             // imgUrl: "https://picsum.photos/200/300",
             uploaderIsVisible: false,
+            toggleBio: false,
         };
     }
     componentDidMount() {
@@ -32,6 +36,11 @@ export default class App extends React.Component {
                 console.log("Err on my componentDidMount:", err);
             });
         console.log("App just mounted");
+    }
+    toggleBio() {
+        this.setState({
+            toggleBio: !this.state.toggleBio,
+        });
     }
 
     toggleUploader() {
@@ -76,38 +85,41 @@ export default class App extends React.Component {
             .catch((err) => {
                 console.log("Catch my err:", err);
             });
-        // console.log("My Log");
-        // // console.log("e", e.target.name);
-
-        // // console.log("formData", formData);
-        // axios
-        //     .post("/images", formData)
-        //     .then((res) => {
-        //         console.log("Submit is running ");
-        //         this.handleChange(e);
-        //         console.log("res", res);
-        //     })
-        //     .catch(({ message }) => {
-        //         console.log("err", message);
-        //     });
     }
 
     render() {
-        const { firstName, lastName, imgUrl, uploaderIsVisible } = this.state;
+        const {
+            first,
+            last,
+            imgUrl,
+            uploaderIsVisible,
+            toggleBio,
+        } = this.state;
 
         return (
             <React.Fragment>
                 <Logo />
+                <Profile
+                    firstName={first}
+                    lastName={last}
+                    profilePic={
+                        <ProfilePic
+                            imgUrl={imgUrl}
+                            triggerUploader={() => this.toggleUploader()}
+                        />
+                    }
+                    toggleBio={<BioEditor toggleBio={} />}
+                />
                 <ProfilePic
-                    firstName={firstName}
-                    lastName={lastName}
+                    firstName={first}
+                    lastName={last}
                     imgUrl={imgUrl}
                     triggerUploader={() => this.toggleUploader()}
                 />
                 {uploaderIsVisible && (
                     <Uploader
                         closeUploader={() => this.closeUploader()}
-                        firstName={firstName}
+                        firstName={first}
                         // uploadImage={(e) => this.uploadImage(e)}
                         submit={() => this.submit()}
                         handleChange={(e) => this.handleChange(e)}
