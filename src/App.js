@@ -5,7 +5,7 @@ import Uploader from "./components/Uploader";
 import axios from "./axios";
 import { BrowserRouter, Route } from "react-router-dom";
 import Profile from "./components/Profile";
-import BioEditor from "./components/ BioEditor";
+import BioEditor from "./components/BioEditor";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -15,7 +15,7 @@ export default class App extends React.Component {
             // lastName: "Debiasito",
             // imgUrl: "https://picsum.photos/200/300",
             uploaderIsVisible: false,
-            toggleBio: false,
+            isBioVisible: false,
         };
     }
     componentDidMount() {
@@ -37,9 +37,11 @@ export default class App extends React.Component {
             });
         console.log("App just mounted");
     }
+
     toggleBio() {
+        console.log("isBioVisible", this.state.isBioVisible);
         this.setState({
-            toggleBio: !this.state.toggleBio,
+            isBioVisible: !this.state.isBioVisible,
         });
     }
 
@@ -93,23 +95,24 @@ export default class App extends React.Component {
             last,
             imgUrl,
             uploaderIsVisible,
-            toggleBio,
+            isBioVisible,
         } = this.state;
 
         return (
             <React.Fragment>
                 <Logo />
                 <Profile
+                    toggleBio={() => this.toggleBio()}
+                    isBioVisible={isBioVisible}
                     firstName={first}
                     lastName={last}
-                    profilePic={
-                        <ProfilePic
-                            imgUrl={imgUrl}
-                            triggerUploader={() => this.toggleUploader()}
-                        />
-                    }
-                    toggleBio={<BioEditor toggleBio={} />}
-                />
+                    imgUrl={imgUrl}
+                >
+                    <ProfilePic
+                        imgUrl={imgUrl}
+                        triggerUploader={() => this.toggleUploader()}
+                    />
+                </Profile>
                 <ProfilePic
                     firstName={first}
                     lastName={last}
