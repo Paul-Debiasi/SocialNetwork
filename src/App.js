@@ -5,12 +5,14 @@ import Uploader from "./components/Uploader";
 import axios from "./axios";
 import { BrowserRouter, Route } from "react-router-dom";
 import Profile from "./components/Profile";
-import BioEditor from "./components/BioEditor";
+// import BioEditor from "./components/BioEditor";
+// import { response } from "express";
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            // Bio: "bio",
             // firstName: "Paulito",
             // lastName: "Debiasito",
             // imgUrl: "https://picsum.photos/200/300",
@@ -22,13 +24,14 @@ export default class App extends React.Component {
         axios
             .get("/user")
             .then(({ data }) => {
-                const { first, last, email, id, image } = data;
+                const { first, last, email, id, image, bio } = data;
                 this.setState({
                     first: first,
                     last: last,
                     email: email,
                     id: id,
                     imgUrl: image,
+                    bio: bio,
                 });
                 console.log("this.state", this.state);
             })
@@ -66,6 +69,26 @@ export default class App extends React.Component {
             () => console.log("this.state in the callback:", this.state)
         );
     }
+    handleBioChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+        () => console.log("this.state on handleBioChange:", this.state);
+    }
+    submitBio() {
+        axios
+            .post("/bio", this.state)
+            .then((response) => {
+                console.log("The post is working!");
+                this.setState({
+                    bio: response.data.bio,
+                    isBioVisible: true,
+                });
+            })
+            .catch((err) => {
+                console.log("Error on submitBio:", err);
+            });
+    }
 
     submit() {
         let formData = new FormData();
@@ -96,23 +119,33 @@ export default class App extends React.Component {
             imgUrl,
             uploaderIsVisible,
             isBioVisible,
+            bio,
         } = this.state;
 
         return (
             <React.Fragment>
                 <Logo />
                 <Profile
+                    triggerUploader={() => this.toggleUploader()}
+                    handleBioChange={(e) => this.handleBioChange(e)}
+                    submitBio={() => this.submitBio()}
                     toggleBio={() => this.toggleBio()}
                     isBioVisible={isBioVisible}
                     firstName={first}
                     lastName={last}
                     imgUrl={imgUrl}
-                >
-                    <ProfilePic
+                    bio={bio}
+                />
+                {/* <ProfilePic
                         imgUrl={imgUrl}
                         triggerUploader={() => this.toggleUploader()}
                     />
-                </Profile>
+                    <BioEditor
+                        Bio={bio}
+                        handleBioChange={(e) => this.handleBioChange(e)}
+                        submitBio={() => this.submitBio()}
+                    />
+                </Profile> */}
                 <ProfilePic
                     firstName={first}
                     lastName={last}
@@ -123,7 +156,6 @@ export default class App extends React.Component {
                     <Uploader
                         closeUploader={() => this.closeUploader()}
                         firstName={first}
-                        // uploadImage={(e) => this.uploadImage(e)}
                         submit={() => this.submit()}
                         handleChange={(e) => this.handleChange(e)}
                     />

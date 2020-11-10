@@ -1,10 +1,14 @@
 import React from "react";
 
-const BioEditor = ({ handleChange, submit, isBioVisible, toggleBio }) => (
+const BioEditor = ({ handleBioChange, submitBio, bio }) => (
     <>
         <form>
-            <textarea name="Bio" onChange={handleChange}></textarea>
-            <button onClick={submit}>SUBMIT</button>
+            <textarea
+                value={bio}
+                name="bio"
+                onChange={handleBioChange}
+            ></textarea>
+            <button onClick={submitBio}>SUBMIT</button>
         </form>
     </>
 );

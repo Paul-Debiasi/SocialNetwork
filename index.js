@@ -16,6 +16,7 @@ const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
 const s3 = require("./s3");
+const { log } = require("console");
 const secretCode = cryptoRandomString({
     length: 6,
 });
@@ -219,6 +220,22 @@ app.post("/images", uploader.single("file"), s3.upload, (req, res) => {
             success: false,
         });
     }
+});
+
+app.post("/bio", (req, res) => {
+    const { bio, id } = req.body;
+    db.insertBio(bio, id)
+        .then(({ rows }) => {
+            rows = rows[0];
+            console.log("My result from rows:", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("error in posting image: ", err);
+            res.json({
+                success: false,
+            });
+        });
 });
 
 app.get("/user", (req, res) => {

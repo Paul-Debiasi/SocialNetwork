@@ -3,14 +3,33 @@ import BioEditor from "./BioEditor";
 import ProfilePic from "./ProfilePic";
 import { Link } from "react-router-dom";
 
-const Profile = ({ firstName, lastName, isBioVisible, imgUrl, toggleBio }) => (
+const Profile = ({
+    submitBio,
+    handleBioChange,
+    firstName,
+    lastName,
+    isBioVisible,
+    imgUrl,
+    toggleBio,
+    bio,
+}) => (
     <>
         <div>My profile</div>
         <span onClick={toggleBio}>
             Hello there {firstName} {lastName}
         </span>
-        <ProfilePic imgUrl={imgUrl} />
-        {isBioVisible && <BioEditor />}
+        <span>{bio}</span>
+        <ProfilePic
+            imgUrl={imgUrl}
+            triggerUploader={() => this.toggleUploader()}
+        />
+        {isBioVisible && (
+            <BioEditor
+                bio={bio}
+                handleBioChange={handleBioChange}
+                submitBio={submitBio}
+            />
+        )}
     </>
 );
 
