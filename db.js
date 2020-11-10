@@ -61,3 +61,9 @@ exports.insertBio = (bio, id) => {
         id,
     ]);
 };
+exports.getOtherUserDataById = (id) => {
+    return db.query(
+        `SELECT id, first, last, image, bio, id FROM users WHERE id = $1`,
+        [id]
+    );
+};

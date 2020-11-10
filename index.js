@@ -247,6 +247,28 @@ app.get("/user", (req, res) => {
         .catch(() => {});
     console.log("The route is working");
 });
+app.get("/api/user/:id", async (req, res) => {
+    const { id } = req.params;
+    console.log("My params:", req.params);
+    const { userId } = req.session;
+    if (id == userId) {
+        res.json({ denied: true });
+    } else {
+        try {
+            const { rows } = await db.getOtherUserDataById(id);
+            if (rows[0]) {
+                res.json(rows[0]);
+                console.log(rows[0]);
+            } else {
+                res.json({ denied: true });
+            }
+        } catch {
+            console.log("error in api user");
+            res.json({ denied: true });
+        }
+    }
+});
+
 app.get("*", function (req, res) {
     // console.log("My star");
     if (!req.session.userId) {

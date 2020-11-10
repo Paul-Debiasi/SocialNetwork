@@ -5,6 +5,8 @@ import Uploader from "./components/Uploader";
 import axios from "./axios";
 import { BrowserRouter, Route } from "react-router-dom";
 import Profile from "./components/Profile";
+// import OtherProfile from "./components/OtherProfile";
+import OtherProf from "./components/OtherProf";
 // import BioEditor from "./components/BioEditor";
 // import { response } from "express";
 
@@ -125,17 +127,36 @@ export default class App extends React.Component {
         return (
             <React.Fragment>
                 <Logo />
-                <Profile
-                    triggerUploader={() => this.toggleUploader()}
-                    handleBioChange={(e) => this.handleBioChange(e)}
-                    submitBio={() => this.submitBio()}
-                    toggleBio={() => this.toggleBio()}
-                    isBioVisible={isBioVisible}
-                    firstName={first}
-                    lastName={last}
-                    imgUrl={imgUrl}
-                    bio={bio}
-                />
+                <BrowserRouter>
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Profile
+                                triggerUploader={() => this.toggleUploader()}
+                                handleBioChange={(e) => this.handleBioChange(e)}
+                                submitBio={() => this.submitBio()}
+                                toggleBio={() => this.toggleBio()}
+                                isBioVisible={isBioVisible}
+                                firstName={first}
+                                lastName={last}
+                                imgUrl={imgUrl}
+                                bio={bio}
+                            />
+                        )}
+                    />
+
+                    <Route
+                        path="/user/:id"
+                        render={(props) => (
+                            <OtherProf
+                                key={props.match.image}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
+                </BrowserRouter>
                 {/* <ProfilePic
                         imgUrl={imgUrl}
                         triggerUploader={() => this.toggleUploader()}

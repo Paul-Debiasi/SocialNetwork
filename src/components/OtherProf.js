@@ -1,17 +1,15 @@
 import React from "react";
 import axios from "../axios";
 
-export default class OtherProfile extends React.Component {
-    constructor(props) {
-        super(props);
+export default class OtherProf extends React.Component {
+    constructor() {
+        super();
         this.state = {};
     }
-
     componentDidMount() {
         console.log("PROPS");
-        console.log("otherprofile props ", this.props);
         axios
-            .get(`/api/user/${this.props.key.params.id}`)
+            .get(`/api/user/${this.props.match.params.id}`)
             .then((response) => {
                 if (response.data.denied) {
                     this.props.history.push("/");
@@ -29,11 +27,16 @@ export default class OtherProfile extends React.Component {
                 console.log("error in obtaining individual user data: ", err);
             });
     }
-
     render() {
+        console.log("OtherProf");
         return (
             <>
-                <h1>Im an Evil-component</h1>
+                <img src={this.state.image} />
+                <p>
+                    {this.state.first} {this.state.last}
+                </p>
+
+                <p>{this.state.bio}</p>
             </>
         );
     }

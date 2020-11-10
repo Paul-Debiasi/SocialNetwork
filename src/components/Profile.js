@@ -1,6 +1,7 @@
 import React from "react";
 import BioEditor from "./BioEditor";
 import ProfilePic from "./ProfilePic";
+// import OtherProfile from "./components/OtherProfile";
 import { Link } from "react-router-dom";
 
 const Profile = ({
