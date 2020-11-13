@@ -21,9 +21,9 @@ if (!userIsLoggedIn) {
     elem = <Welcome />;
 } else {
     elem = (
-        <Provider store={store}>
-            <App />
-        </Provider>
+        // <Provider store={store}>
+        <App />
+        // </Provider>
     );
 }
 // Is only call once per project (will appended my code to the DOM)

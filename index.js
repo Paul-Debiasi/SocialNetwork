@@ -247,6 +247,31 @@ app.get("/user", (req, res) => {
         .catch(() => {});
     console.log("The route is working");
 });
+
+app.get("/api/users/:value", (req, res) => {
+    const { value } = req.params;
+
+    db.getMatchingUser(value)
+        .then(({ rows }) => {
+            if (rows.length !== 0) {
+                res.json({
+                    success: true,
+                    rows,
+                });
+            } else {
+                res.json({
+                    success: false,
+                    error: "No user found, try again later",
+                });
+            }
+        })
+        .catch((err) => {
+            console.log("BIG ERROR on getMatching user function: ", err);
+        });
+
+    console.log("The route is working ALL USERS ");
+});
+
 app.get("/api/user/:id", async (req, res) => {
     const { id } = req.params;
     console.log("My params:", req.params);

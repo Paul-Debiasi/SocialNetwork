@@ -5,6 +5,7 @@ import ProfilePic from "./ProfilePic";
 import { Link } from "react-router-dom";
 
 const Profile = ({
+    title,
     submitBio,
     handleBioChange,
     firstName,
@@ -15,7 +16,7 @@ const Profile = ({
     bio,
 }) => (
     <>
-        <div>My profile</div>
+        <div>{title}</div>
         <span onClick={toggleBio}>
             Hello there {firstName} {lastName}
         </span>

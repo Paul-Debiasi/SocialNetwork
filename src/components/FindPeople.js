@@ -1,58 +1,61 @@
 import { useStatefulFields } from "../useStatefulFields";
-
-import React, {useState, useEffect } from "react";
+// import db = require("../../db.js");
+import React, { useState, useEffect } from "react";
 // import { useAuthSubmit } from "../useAuthSubmit";
 // import React from "react";
+import Profile from "../components/Profile";
 import axios from "axios";
 
-export default function FindPeople(values) {
-	const [values, handleChange] = useStatefulFields();
-	const [error, setError] = useState();
-    // const [error, handleSubmit] = useAuthSubmit("/users", values);
+const FindPeople = () => {
+    const [values, handleChange] = useStatefulFields();
+    const [error, setError] = useState();
+    const [users, setUsers] = useState();
+
+    const { value } = values;
+    // console.log("values", value);
     useEffect(() => {
         let abort;
-        (async () => {
-            const { data } = await axios.get(`/api/users`, values);
-            console.log("data");
-            // if (!abort) {
-            //     setUser(data.user);
-            // }
-        })();
-        // return () => {
-        //    let abort = true;
-        //    (async()=>)
-        // };
-        // }, [id]);
-    });
 
+        axios
+            .get(`/api/users/${value}`)
+            .then(({ data }) => {
+                console.log("mydata", data);
+                if (!data.success) {
+                    setError(data.error);
+                } else {
+                    setError(false);
+                }
+
+                setUsers(data);
+            })
+            .catch((err) => {
+                console.log(`THE ERROR: ${err}`);
+            });
+    }, [value]);
+    console.log("users", users);
     /* ... */
 
     return (
-        <div>
-            {/* {error && <div>Oops! Something went wrong.</div>} */}
+        <>
             <input
                 onChange={handleChange}
                 name="value"
                 placeholder="Other users"
-            />
-
-            {/* <button onClick={handleSubmit}>submit</button> */}
-        </div>
+            />{" "}
+            <br></br>
+            <div>
+                {users?.rows?.map(({ first, last, image }, index) => (
+                    <Profile
+                        key={index}
+                        title={`Profile: ${last}`}
+                        imgUrl={image}
+                        firstName={first}
+                        lastName={last}
+                    />
+                ))}
+            </div>
+        </>
     );
-}
-return (
-	<input onChange={handleChange} 
-	       name="value"
-	       placeholder="Other users">
-</input>
-		{users.map(
-			user => (
-				<div key={user.id}>
-					{/* ... */}
-				</div>
-			)
-		)}
+};
 
-		{/* ... */}
-	</div>
-);
+export default FindPeople;

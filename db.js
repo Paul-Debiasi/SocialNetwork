@@ -22,20 +22,22 @@ module.exports.insertIntoReset = (email, code) => {
     );
 };
 
-exports.userEmail = (email) => {
+module.exports.userEmail = (email) => {
     return db.query(
         `SELECT * FROM users WHERE LOWER(email) = LOWER($1)
 	`,
         [email]
     );
 };
-exports.updatePsw = (hash, email) => {
+
+module.exports.updatePsw = (hash, email) => {
     return db.query(`UPDATE users SET password = $1 WHERE email = $2`, [
         hash,
         email,
     ]);
 };
-exports.code = (email) => {
+
+module.exports.code = (email) => {
     return db.query(
         `SELECT * FROM reset_codes
 	WHERE CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes' AND email = $1
@@ -45,35 +47,38 @@ exports.code = (email) => {
     );
 };
 
-exports.userInfo = (id) => {
+module.exports.userInfo = (id) => {
     return db.query(`SELECT * FROM users WHERE id = $1`, [id]);
 };
-exports.userImage = (profileImage, id) => {
+
+module.exports.userImage = (profileImage, id) => {
     return db.query(
         `UPDATE users SET image = $1 WHERE id = $2 RETURNING image `,
         [profileImage, id]
     );
 };
 
-exports.insertBio = (bio, id) => {
+module.exports.insertBio = (bio, id) => {
     return db.query(`UPDATE users SET bio = $1 WHERE id = $2 RETURNING bio;`, [
         bio,
         id,
     ]);
 };
-exports.getOtherUserDataById = (id) => {
+
+module.exports.getOtherUserDataById = (id) => {
     return db.query(
         `SELECT id, first, last, image, bio, id FROM users WHERE id = $1`,
         [id]
     );
 };
-function getMatchingUser(val) {
-    return db.query(`SELECT name FROM users WHERE first ILIKE $1;`, [
-        val + "%",
-    ]function getMatchingActors(val) {
-		return db.query(
-			`SELECT name FROM ACTORS WHERE name ILIKE $1;`,
-			[val + '%']
-		);
-	});
-}
+
+module.exports.getMatchingUser = (val) => {
+    return db.query(
+        `SELECT id, first, last, image FROM users
+		WHERE first ILIKE  $1
+		ORDER BY first
+		ASC LIMIT 5
+		`,
+        [val + "%"]
+    );
+};

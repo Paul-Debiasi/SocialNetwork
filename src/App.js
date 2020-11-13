@@ -146,12 +146,14 @@ export default class App extends React.Component {
                             triggerUploader={() => this.toggleUploader()}
                         />
                     </div>
+                    <FindPeople />
 
                     <Route
                         exact
                         path="/"
                         render={() => (
                             <Profile
+                                title="My profile"
                                 triggerUploader={() => this.toggleUploader()}
                                 handleBioChange={(e) => this.handleBioChange(e)}
                                 submitBio={() => this.submitBio()}
@@ -175,7 +177,6 @@ export default class App extends React.Component {
                             />
                         )}
                     />
-                    <FindPeople />
                 </BrowserRouter>
                 {/* <ProfilePic
                         imgUrl={imgUrl}
