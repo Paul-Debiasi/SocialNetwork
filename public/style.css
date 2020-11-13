@@ -1,3 +1,7 @@
+* {
+    margin: 0px;
+    box-sizing: border-box;
+}
 body {
     background-image: linear-gradient(to top, #283048, #859398, #283048);
     height: 100%;
@@ -49,13 +53,25 @@ body {
     width: 30%;
 }
 
-.small-logo {
+.header {
+    display: flex;
+    justify-content: space-between;
     background-image: linear-gradient(to top, #283048, #859398, #283048);
+    height: 100px;
+    width: 100%;
+}
+.small-logo-box {
+    position: relative;
     height: 100%;
+    width: 200px;
+}
+.profile-box {
+    position: relative;
+    height: 100%;
+    width: 100px;
 }
 .s-logo {
-    width: 100px;
-    height: 100px;
+    height: 100%;
 }
 
 .login-link {

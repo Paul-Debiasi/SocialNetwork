@@ -7,6 +7,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Profile from "./components/Profile";
 // import OtherProfile from "./components/OtherProfile";
 import OtherProf from "./components/OtherProf";
+import FindPeople from "./components/FindPeople";
 // import BioEditor from "./components/BioEditor";
 // import { response } from "express";
 
@@ -123,11 +124,29 @@ export default class App extends React.Component {
             isBioVisible,
             bio,
         } = this.state;
+        <div className="header">
+            <Logo />
+            <ProfilePic
+                firstName={first}
+                lastName={last}
+                imgUrl={imgUrl}
+                triggerUploader={() => this.toggleUploader()}
+            />
+        </div>;
 
         return (
             <React.Fragment>
-                <Logo />
                 <BrowserRouter>
+                    <div className="header">
+                        <Logo />
+                        <ProfilePic
+                            firstName={first}
+                            lastName={last}
+                            imgUrl={imgUrl}
+                            triggerUploader={() => this.toggleUploader()}
+                        />
+                    </div>
+
                     <Route
                         exact
                         path="/"
@@ -156,6 +175,7 @@ export default class App extends React.Component {
                             />
                         )}
                     />
+                    <FindPeople />
                 </BrowserRouter>
                 {/* <ProfilePic
                         imgUrl={imgUrl}
@@ -167,12 +187,7 @@ export default class App extends React.Component {
                         submitBio={() => this.submitBio()}
                     />
                 </Profile> */}
-                <ProfilePic
-                    firstName={first}
-                    lastName={last}
-                    imgUrl={imgUrl}
-                    triggerUploader={() => this.toggleUploader()}
-                />
+
                 {uploaderIsVisible && (
                     <Uploader
                         closeUploader={() => this.closeUploader()}

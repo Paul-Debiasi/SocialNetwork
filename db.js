@@ -67,3 +67,13 @@ exports.getOtherUserDataById = (id) => {
         [id]
     );
 };
+function getMatchingUser(val) {
+    return db.query(`SELECT name FROM users WHERE first ILIKE $1;`, [
+        val + "%",
+    ]function getMatchingActors(val) {
+		return db.query(
+			`SELECT name FROM ACTORS WHERE name ILIKE $1;`,
+			[val + '%']
+		);
+	});
+}
