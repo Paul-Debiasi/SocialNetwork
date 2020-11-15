@@ -3,34 +3,60 @@ import { useStatefulFields } from "../useStatefulFields";
 import React, { useState, useEffect } from "react";
 // import { useAuthSubmit } from "../useAuthSubmit";
 // import React from "react";
+import { Link } from "react-router-dom";
 import Profile from "../components/Profile";
 import axios from "axios";
-
+import Logo from "./logo";
 const FindPeople = () => {
     const [values, handleChange] = useStatefulFields();
     const [error, setError] = useState();
-    const [users, setUsers] = useState();
+    const [users, setUsers] = useState([]);
 
     const { value } = values;
     // console.log("values", value);
+    // useEffect(() => {
+    //     console.log("useEffect 1 is running");
+    //     (async () => {
+    //         // try {
+    //         let { data } = await axios.get("/api/users");
+    //         console.log("Data on my users route:", data);
+    //         await setUsers(data);
+    //         // } catch (err) {
+    //         //     console.log("err in useEffect() axios /api/users", err);
+    //         // }
+    //     })();
+    // }, []);
+
     useEffect(() => {
         let abort;
+        if (value) {
+            axios
+                .get(`/api/users/${value}`)
+                .then(({ data }) => {
+                    // console.log("mydata", data);
+                    // if (!data.success) {
+                    //     setError(data.error);
+                    // } else {
+                    //     setError(false);
+                    // }
 
-        axios
-            .get(`/api/users/${value}`)
-            .then(({ data }) => {
-                console.log("mydata", data);
-                if (!data.success) {
-                    setError(data.error);
-                } else {
-                    setError(false);
-                }
-
-                setUsers(data);
-            })
-            .catch((err) => {
-                console.log(`THE ERROR: ${err}`);
-            });
+                    setUsers(data);
+                    console.log("Data on the II useEffect:", data);
+                })
+                .catch((err) => {
+                    console.log(`THE ERROR: ${err}`);
+                });
+        } else {
+            (async () => {
+                // try {
+                let { data } = await axios.get("/api/users");
+                console.log("Data on my users route:", data);
+                await setUsers(data);
+                // } catch (err) {
+                //     console.log("err in useEffect() axios /api/users", err);
+                // }
+            })();
+        }
     }, [value]);
     console.log("users", users);
     /* ... */
@@ -38,20 +64,30 @@ const FindPeople = () => {
     return (
         <>
             <input
+                type="search"
+                autoComplete="off"
                 onChange={handleChange}
                 name="value"
                 placeholder="Other users"
             />{" "}
             <br></br>
             <div>
-                {users?.rows?.map(({ first, last, image }, index) => (
-                    <Profile
-                        key={index}
-                        title={`Profile: ${last}`}
-                        imgUrl={image}
-                        firstName={first}
-                        lastName={last}
-                    />
+                {users.map((eachUser) => (
+                    <Link
+                        key={eachUser.id}
+                        to={`/user/${eachUser.id}`}
+                        style={{
+                            textDecoration: "none",
+                        }}
+                    >
+                        <Profile
+                            key={eachUser.id}
+                            title={`Profile: ${eachUser.last}`}
+                            imgUrl={eachUser.image}
+                            firstName={eachUser.first}
+                            lastName={eachUser.last}
+                        />
+                    </Link>
                 ))}
             </div>
         </>

@@ -3,7 +3,7 @@ import Logo from "./components/logo";
 import ProfilePic from "./components/ProfilePic";
 import Uploader from "./components/Uploader";
 import axios from "./axios";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Link, Route } from "react-router-dom";
 import Profile from "./components/Profile";
 // import OtherProfile from "./components/OtherProfile";
 import OtherProf from "./components/OtherProf";
@@ -139,6 +139,8 @@ export default class App extends React.Component {
                 <BrowserRouter>
                     <div className="header">
                         <Logo />
+                        <Link to="/users"> Find More Users </Link>
+                        <Link to="/"> My Profile </Link>
                         <ProfilePic
                             firstName={first}
                             lastName={last}
@@ -146,7 +148,7 @@ export default class App extends React.Component {
                             triggerUploader={() => this.toggleUploader()}
                         />
                     </div>
-                    <FindPeople />
+                    <Route path="/users" component={FindPeople} />
 
                     <Route
                         exact

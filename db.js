@@ -82,3 +82,9 @@ module.exports.getMatchingUser = (val) => {
         [val + "%"]
     );
 };
+
+module.exports.getUsers = () => {
+    return db.query(
+        `SELECT id, first, last, image FROM users ORDER BY id DESC LIMIT 3`
+    );
+};

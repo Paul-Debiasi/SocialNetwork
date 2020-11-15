@@ -248,21 +248,27 @@ app.get("/user", (req, res) => {
     console.log("The route is working");
 });
 
-app.get("/api/users/:value", (req, res) => {
-    const { value } = req.params;
+app.get("/api/users", (req, res) => {
+    console.log("Api users is running!");
+    db.getUsers()
+        .then(({ rows }) => {
+            console.log("Rows from getUsers:", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("Error on getUsers:", err);
+        });
+});
 
-    db.getMatchingUser(value)
+app.get("/api/users/:user", (req, res) => {
+    const { user } = req.params;
+
+    db.getMatchingUser(user)
         .then(({ rows }) => {
             if (rows.length !== 0) {
-                res.json({
-                    success: true,
-                    rows,
-                });
+                res.json(rows);
             } else {
-                res.json({
-                    success: false,
-                    error: "No user found, try again later",
-                });
+                res.json(rows);
             }
         })
         .catch((err) => {
