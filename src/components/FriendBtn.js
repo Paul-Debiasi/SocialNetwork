@@ -20,10 +20,10 @@ const FriendBtn = ({ id }) => {
 
     const submit = () => {
         (async () => {
-            let { data } = await axios.post(`/checkFriends/${btnText}`, {
+            console.log("data on my submit:");
+            let { data } = await axios.post(`/FriendStatus/${btnText}`, {
                 id: id,
             });
-            console.log("data on my submit:", data);
             setBtnText();
             console.log("my submit:", setBtnText());
         })();
@@ -31,10 +31,7 @@ const FriendBtn = ({ id }) => {
 
     return (
         <>
-            <button
-                style={{ width: "100px", height: "40px" }}
-                onClick={() => submit()}
-            >
+            <button style={{ width: "100px", height: "40px" }} onClick={submit}>
                 {btnText}
             </button>
         </>

@@ -333,7 +333,7 @@ app.get(`/checkFriendStatus/:otherUserId`, async (req, res) => {
         if (!rows[0]) {
             res.json({ status: "Add friend", id: userId });
         } else if (!rows[0].accepted) {
-            if (rows[0].recipient_id !== req.session.userId) {
+            if (rows[0].recipient_id == req.session.userId) {
                 res.json({ status: "Cancel request", id: userId });
             } else {
                 res.json({ status: "Accept friend", id: userId });
