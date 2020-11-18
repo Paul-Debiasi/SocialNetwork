@@ -13,19 +13,6 @@ const FindPeople = () => {
     const [users, setUsers] = useState([]);
 
     const { value } = values;
-    // console.log("values", value);
-    // useEffect(() => {
-    //     console.log("useEffect 1 is running");
-    //     (async () => {
-    //         // try {
-    //         let { data } = await axios.get("/api/users");
-    //         console.log("Data on my users route:", data);
-    //         await setUsers(data);
-    //         // } catch (err) {
-    //         //     console.log("err in useEffect() axios /api/users", err);
-    //         // }
-    //     })();
-    // }, []);
 
     useEffect(() => {
         let abort;
@@ -33,13 +20,6 @@ const FindPeople = () => {
             axios
                 .get(`/api/users/${value}`)
                 .then(({ data }) => {
-                    // console.log("mydata", data);
-                    // if (!data.success) {
-                    //     setError(data.error);
-                    // } else {
-                    //     setError(false);
-                    // }
-
                     setUsers(data);
                     console.log("Data on the II useEffect:", data);
                 })

@@ -5,6 +5,8 @@ const app = express();
 const cookieSession = require("cookie-session");
 // compression is a npm module to minimize the size of the responses(it's a middleware)
 const compression = require("compression");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 const db = require("./db.js");
 const bcrypt = require("./bc.js");
 const csurf = require("csurf");
@@ -23,12 +25,15 @@ const secretCode = cryptoRandomString({
 
 app.use(express.json());
 
-app.use(
-    cookieSession({
-        secret: "What ever I want my secret to be",
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(compression());
 app.use(express.static("public"));
@@ -300,6 +305,47 @@ app.get("/api/user/:id", async (req, res) => {
     }
 });
 
+app.post(`/FriendStatus/:btnText`, async (req, res) => {
+    const { userId } = req.session;
+    const { id } = req.body;
+    console.log("My Friends button:", req.body);
+    if (req.params.btnText == "Add friend") {
+        const { data } = await db.addFriends(id, userId, false);
+        res.json({ success: true });
+    } else if (req.params.btnText == "Cancel request") {
+        const { data } = await db.deleteFriends(id, userId);
+        res.json({ success: true });
+    } else if (req.params.btnText == "Accept friend") {
+        const { data } = await db.acceptFriends(id, userId, true);
+        res.json({ success: true });
+    } else if (req.params.btnText == "Unfriend") {
+        const { data } = await db.deleteFriends(id, userId);
+        res.json({ success: true });
+    }
+});
+
+app.get(`/checkFriendStatus/:otherUserId`, async (req, res) => {
+    try {
+        const { userId } = req.session;
+        const { otherUserId } = req.params;
+        console.log("My checkStatus is running:", req.params);
+        const { rows } = await db.getStatus(userId, otherUserId);
+        if (!rows[0]) {
+            res.json({ status: "Add friend", id: userId });
+        } else if (!rows[0].accepted) {
+            if (rows[0].recipient_id !== req.session.userId) {
+                res.json({ status: "Cancel request", id: userId });
+            } else {
+                res.json({ status: "Accept friend", id: userId });
+            }
+        } else if (rows[0].accepted) {
+            res.json({ status: "Unfriend", id: userId });
+        }
+    } catch (e) {
+        console.log("Error on getStatus:", e);
+    }
+});
+
 app.get("*", function (req, res) {
     // console.log("My star");
     if (!req.session.userId) {
@@ -309,7 +355,31 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(8080, function () {
+server.listen(8080, function () {
     console.log("I'm listening.");
 });
 // req.session = null and redirect to welcome page
+
+io.on("connection", (socket) => {
+    console.log(`socket with id ${socket.id} just connect  `);
+
+    // sending message to client from server
+    // socket.emit("Welcome", {
+    //     name: Paul,
+    // });
+    // // io.emit
+    // io.emit("messageIoEmit", {
+    //     id: socket.id,
+    // });
+    // // socket.broadcast
+
+    // socket.broadcast.emi("broadcastEmit", (data) => {
+    //     socketId: socket.id;
+    // });
+    // socket.on("messageFromClient", (data) => {
+    //     console.log("data from messageFromClient", data);
+    // });
+    // socket.on("disconnect", () => {
+    //     console.log(`User ${socket.id} disconnected`);
+    // });
+});

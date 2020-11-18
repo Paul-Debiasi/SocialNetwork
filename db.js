@@ -88,3 +88,37 @@ module.exports.getUsers = () => {
         `SELECT id, first, last, image FROM users ORDER BY id DESC LIMIT 3`
     );
 };
+
+module.exports.getStatus = (sender, recipient) => {
+    return db.query(
+        `SELECT * FROM friendships
+	WHERE (recipient_id = $1 AND sender_id = $2)
+	OR (recipient_id = $2 AND sender_id = $1)`,
+        [sender, recipient]
+    );
+};
+
+module.exports.addFriends = (sender, recipient, accepted) => {
+    return db.query(
+        `INSERT INTO friendships (sender_id, recipient_id, accepted)
+	     VALUES ($1, $2, $3)`,
+        [sender, recipient, accepted]
+    );
+};
+
+module.exports.acceptFriends = (sender, recipient, accepted) => {
+    return db.query(
+        `UPDATE friendships SET (accepted) WHERE (recipient_id = $1 AND sender_id = $2)
+	    OR (recipient_id = $2 AND sender_id = $1)`,
+        [sender, recipient, accepted]
+    );
+};
+
+module.exports.deleteFriends = (sender, recipient) => {
+    return db.query(
+        `DELETE FROM friendships WHERE (recipient_id = $1 AND sender_id = $2)
+	    OR (recipient_id = $2 AND sender_id = $1) 
+	    RETURNING sender_id`,
+        [sender, recipient]
+    );
+};

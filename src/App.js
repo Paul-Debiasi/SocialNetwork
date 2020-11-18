@@ -15,10 +15,6 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // Bio: "bio",
-            // firstName: "Paulito",
-            // lastName: "Debiasito",
-            // imgUrl: "https://picsum.photos/200/300",
             uploaderIsVisible: false,
             isBioVisible: false,
         };

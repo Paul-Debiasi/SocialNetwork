@@ -1,10 +1,13 @@
 import React from "react";
 import axios from "../axios";
+import FriendBtn from "./FriendBtn";
 
 export default class OtherProf extends React.Component {
     constructor() {
         super();
-        this.state = {};
+        this.state = {
+            id: null,
+        };
     }
     componentDidMount() {
         console.log("PROPS");
@@ -28,15 +31,17 @@ export default class OtherProf extends React.Component {
             });
     }
     render() {
-        console.log("OtherProf");
+        // console.log("OtherProf");
+        const { id, image, first, last, bio, btnText, submit } = this.state;
         return (
             <>
-                <img src={this.state.image} />
+                <FriendBtn id={id} key={id} btnText={btnText} submit={submit} />
+                <img src={image} />
                 <p>
-                    {this.state.first} {this.state.last}
+                    {first} {last}
                 </p>
 
-                <p>{this.state.bio}</p>
+                <p>{bio}</p>
             </>
         );
     }
