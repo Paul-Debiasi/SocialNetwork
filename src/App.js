@@ -5,11 +5,12 @@ import Uploader from "./components/Uploader";
 import axios from "./axios";
 import { BrowserRouter, Link, Route } from "react-router-dom";
 import Profile from "./components/Profile";
-// import OtherProfile from "./components/OtherProfile";
 import OtherProf from "./components/OtherProf";
 import FindPeople from "./components/FindPeople";
 // import BioEditor from "./components/BioEditor";
 // import { response } from "express";
+import Friends from "./components/Friends";
+import Chat from "./components/Chat";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -134,15 +135,23 @@ export default class App extends React.Component {
             <React.Fragment>
                 <BrowserRouter>
                     <div className="header">
-                        <Logo />
-                        <Link to="/users"> Find More Users </Link>
-                        <Link to="/"> My Profile </Link>
-                        <ProfilePic
-                            firstName={first}
-                            lastName={last}
-                            imgUrl={imgUrl}
-                            triggerUploader={() => this.toggleUploader()}
-                        />
+                        <div>
+                            <Logo />
+                        </div>
+                        <div style={{ paddingTop: "16px" }}>
+                            <Link to="/chat">Chat</Link>
+                            <Link to="/users"> Find More Users </Link>
+                            <Link to="/friend">My Friends</Link>
+                        </div>
+                        <Route path="/friend" component={Friends} />
+                        <div>
+                            <ProfilePic
+                                firstName={first}
+                                lastName={last}
+                                imgUrl={imgUrl}
+                                triggerUploader={() => this.toggleUploader()}
+                            />
+                        </div>
                     </div>
                     <Route path="/users" component={FindPeople} />
 
@@ -175,6 +184,7 @@ export default class App extends React.Component {
                             />
                         )}
                     />
+                    <Route path="/chat" component={Chat} />
                 </BrowserRouter>
                 {/* <ProfilePic
                         imgUrl={imgUrl}

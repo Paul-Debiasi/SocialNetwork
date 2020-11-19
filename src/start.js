@@ -19,13 +19,13 @@ const store = createStore(
 let elem;
 const userIsLoggedIn = location.pathname != "/welcome";
 if (!userIsLoggedIn) {
-    init(store);
     elem = <Welcome />;
 } else {
+    init(store);
     elem = (
-        // <Provider store={store}>
-        <App />
-        // </Provider>
+        <Provider store={store}>
+            <App />
+        </Provider>
     );
 }
 // Is only call once per project (will appended my code to the DOM)

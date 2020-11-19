@@ -1,4 +1,5 @@
 var spicedPg = require("spiced-pg");
+const { HotModuleReplacementPlugin } = require("webpack");
 var db = spicedPg(
     process.env.DATABASE_URL ||
         `postgres:postgres:postgres@localhost:5432/social`
@@ -108,7 +109,7 @@ module.exports.addFriends = (sender, recipient, accepted) => {
 
 module.exports.acceptFriends = (sender, recipient, accepted) => {
     return db.query(
-        `UPDATE friendships SET (accepted) WHERE (recipient_id = $1 AND sender_id = $2)
+        `UPDATE friendships SET accepted = $3 WHERE (recipient_id = $1 AND sender_id = $2)
 	    OR (recipient_id = $2 AND sender_id = $1)`,
         [sender, recipient, accepted]
     );
@@ -120,5 +121,43 @@ module.exports.deleteFriends = (sender, recipient) => {
 	    OR (recipient_id = $2 AND sender_id = $1) 
 	    RETURNING sender_id`,
         [sender, recipient]
+    );
+};
+
+module.exports.getFriends = (id) => {
+    return db.query(
+        `  SELECT users.id, first, last, image, accepted, sender_id, recipient_id
+        FROM friendships
+        JOIN users
+        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = false AND sender_id = $1 AND recipient_id = users.id)
+        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+`,
+        [id]
+    );
+};
+
+module.exports.chatHistory = () => {
+    return db.query(
+        `
+        SELECT chat.id, message, first, last, chat.time
+        FROM chat
+        JOIN users
+        ON author = users.id
+        ORDER BY chat.time DESC
+        LIMIT 10;
+        `
+    );
+};
+
+module.exports.chatMessage = (userId, message) => {
+    return db.query(
+        `
+        INSERT INTO chat
+        (author, message)
+        VALUES ($1, $2);
+        `,
+        [userId, message]
     );
 };

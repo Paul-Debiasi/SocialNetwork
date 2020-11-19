@@ -310,17 +310,35 @@ app.post(`/FriendStatus/:btnText`, async (req, res) => {
     const { id } = req.body;
     console.log("My Friends button:", req.body);
     if (req.params.btnText == "Add friend") {
-        const { data } = await db.addFriends(id, userId, false);
+        const { data } = await db.addFriends(userId, id, false);
         res.json({ success: true });
     } else if (req.params.btnText == "Cancel request") {
         const { data } = await db.deleteFriends(id, userId);
         res.json({ success: true });
     } else if (req.params.btnText == "Accept friend") {
+        console.log("Pablo");
         const { data } = await db.acceptFriends(id, userId, true);
         res.json({ success: true });
     } else if (req.params.btnText == "Unfriend") {
         const { data } = await db.deleteFriends(id, userId);
         res.json({ success: true });
+    }
+});
+
+app.get("/getFriends", async (req, res) => {
+    const { userId } = req.session;
+    console.log("Req my session:", req.session);
+    try {
+        const { rows } = await db.getFriends(userId);
+        let received = rows.filter(function (user) {
+            return !user.accepted && user.sender_id != userId;
+        });
+        let sent = rows.filter(function (user) {
+            return !user.accepted && user.sender_id == userId;
+        });
+        res.json({ rows, received, sent });
+    } catch (e) {
+        console.log(e);
     }
 });
 
@@ -333,7 +351,7 @@ app.get(`/checkFriendStatus/:otherUserId`, async (req, res) => {
         if (!rows[0]) {
             res.json({ status: "Add friend", id: userId });
         } else if (!rows[0].accepted) {
-            if (rows[0].recipient_id == req.session.userId) {
+            if (rows[0].recipient_id !== req.session.userId) {
                 res.json({ status: "Cancel request", id: userId });
             } else {
                 res.json({ status: "Accept friend", id: userId });
@@ -360,8 +378,31 @@ server.listen(8080, function () {
 });
 // req.session = null and redirect to welcome page
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    const { userId } = socket.request.session;
     console.log(`socket with id ${socket.id} just connect  `);
+
+    try {
+        let data = await db.chatHistory();
+        let payload = data.rows.reverse();
+        io.emit("chatHistory", payload);
+    } catch (err) {
+        console.log("Error in SOCKET io.emit chatHistory", err);
+    }
+    socket.on("newMessage", async (newMessage) => {
+        console.log(`userId ${userId} just added this message: ${newMessage}`);
+        try {
+            await db.chatMessage(userId, newMessage);
+            let data = await db.chatHistory();
+            let payload = data.rows.reverse();
+            io.emit("chatHistory", payload);
+        } catch (err) {
+            console.log("Error in SOCKET io.emit newMessage", err);
+        }
+    });
 
     // sending message to client from server
     // socket.emit("Welcome", {

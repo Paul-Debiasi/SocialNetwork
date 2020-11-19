@@ -56,7 +56,6 @@ body {
 .header {
     display: flex;
     justify-content: space-between;
-    background-image: linear-gradient(to top, #283048, #859398, #283048);
     height: 100px;
     width: 100%;
 }
