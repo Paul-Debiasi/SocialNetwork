@@ -135,17 +135,26 @@ export default class App extends React.Component {
             <React.Fragment>
                 <BrowserRouter>
                     <div className="header">
-                        <div>
-                            <Logo />
+                        {/* <div> */}
+                        <Logo />
+                        {/* </div> */}
+                        <div
+                            className="header-links"
+                            style={{ paddingTop: "16px" }}
+                        >
+                            <div className="link-header">
+                                <Link to="/chat">CHAT</Link>
+                            </div>
+                            <div className="link-header link-header-users">
+                                <Link to="/users">FIND MORE USERS</Link>
+                            </div>
+                            <div className="link-header">
+                                <Link to="/friend">FRIENDS</Link>
+                            </div>
                         </div>
-                        <div style={{ paddingTop: "16px" }}>
-                            <Link to="/chat">Chat</Link>
-                            <Link to="/users"> Find More Users </Link>
-                            <Link to="/friend">My Friends</Link>
-                        </div>
-                        <Route path="/friend" component={Friends} />
                         <div>
                             <ProfilePic
+                                classValue="Mini"
                                 firstName={first}
                                 lastName={last}
                                 imgUrl={imgUrl}
@@ -153,6 +162,7 @@ export default class App extends React.Component {
                             />
                         </div>
                     </div>
+                    <Route path="/friend" component={Friends} />
                     <Route path="/users" component={FindPeople} />
 
                     <Route
@@ -201,6 +211,7 @@ export default class App extends React.Component {
                     <Uploader
                         closeUploader={() => this.closeUploader()}
                         firstName={first}
+                        imgUrl={imgUrl}
                         submit={() => this.submit()}
                         handleChange={(e) => this.handleChange(e)}
                     />

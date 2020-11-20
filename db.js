@@ -141,7 +141,7 @@ module.exports.getFriends = (id) => {
 module.exports.chatHistory = () => {
     return db.query(
         `
-        SELECT chat.id, message, first, last, chat.time
+        SELECT chat.id, message, first, last, chat.time, image
         FROM chat
         JOIN users
         ON author = users.id

@@ -229,6 +229,7 @@ app.post("/images", uploader.single("file"), s3.upload, (req, res) => {
 
 app.post("/bio", (req, res) => {
     const { bio, id } = req.body;
+    console.log("InsertBio:", req.body);
     db.insertBio(bio, id)
         .then(({ rows }) => {
             rows = rows[0];

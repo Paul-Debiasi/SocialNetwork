@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "../axios";
 import FriendBtn from "./FriendBtn";
+import Profile from "./Profile";
 
 export default class OtherProf extends React.Component {
     constructor() {
@@ -35,13 +36,41 @@ export default class OtherProf extends React.Component {
         const { id, image, first, last, bio, btnText, submit } = this.state;
         return (
             <>
-                <FriendBtn id={id} key={id} btnText={btnText} submit={submit} />
-                <img src={image} />
+                <div
+                    style={{
+                        display: "flex",
+                        alignContent: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            marginBottom: "40px",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Profile
+                            imgUrl={image}
+                            firstName={first}
+                            lastName={last}
+                            bio={bio}
+                        />
+                        <FriendBtn
+                            id={id}
+                            key={id}
+                            btnText={btnText}
+                            submit={submit}
+                        />
+                        {/* <img style={{ maxWidth: "300px" }} src={image} />
                 <p>
                     {first} {last}
                 </p>
 
-                <p>{bio}</p>
+                <p>{bio}</p> */}
+                    </div>
+                </div>
             </>
         );
     }

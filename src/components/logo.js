@@ -8,6 +8,7 @@ const Welcome = () => (
         <div className="small-logo-box">
             <Link to="/">
                 <img
+                    style={{}}
                     className="s-logo"
                     src="static/images/logo.jpg"
                     alt="Logo"

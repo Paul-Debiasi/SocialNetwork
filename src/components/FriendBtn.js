@@ -31,7 +31,16 @@ const FriendBtn = ({ id }) => {
 
     return (
         <>
-            <button style={{ width: "100px", height: "40px" }} onClick={submit}>
+            <button
+                className="link-header"
+                style={{
+                    width: "100%",
+                    height: "40px",
+                    fontFamily: "sans-serif",
+                    fontSize: "24px",
+                }}
+                onClick={submit}
+            >
                 {btnText}
             </button>
         </>

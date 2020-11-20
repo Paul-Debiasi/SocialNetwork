@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 export default class Login extends React.Component {
     constructor() {
         super();
-        this.state = {};
+        this.state = {
+            error: false,
+        };
         // this.handleChange = this.handleChange.bind(this);
     }
 
@@ -48,21 +50,55 @@ export default class Login extends React.Component {
                 </div>
                 {this.state.error && <div>Oops, something went wrong!</div>}
                 <div className="reg-form">
-                    <div className="first-form">
+                    <div style={{ textAlign: "center" }} className="first-form">
                         <input
+                            autoComplete="off"
+                            style={{
+                                width: "100%",
+                                height: "35px",
+                                backgroundColor: "black",
+                                color: "#00FF41",
+                                fontSize: "24px",
+                            }}
                             name="email"
                             placeholder="email..."
                             onChange={(e) => this.handleChange(e)}
                         ></input>
                         <input
+                            style={{
+                                width: "100%",
+                                height: "35px",
+                                backgroundColor: "black",
+                                color: "#00FF41",
+                                fontSize: "24px",
+                            }}
                             name="password"
                             placeholder="password"
                             type="password"
                             onChange={(e) => this.handleChange(e)}
                         ></input>
-                        <button onClick={() => this.submit()}>LOG IN!</button>
-                        <Link className="log-link" to="/ResetPassword">
-                            Reset your Password!
+                        <button
+                            style={{
+                                width: "100%",
+                                letterSpacing: "8px",
+                                fontSize: "20px",
+                                marginTop: "8px",
+                                marginBottom: "8px",
+                            }}
+                            className="link-header"
+                            onClick={() => this.submit()}
+                        >
+                            <div style={{ marginTop: "2px" }}> LOG IN!</div>
+                        </button>
+                        <Link
+                            style={{
+                                fontFamily: "sans-serif",
+                                fontWeight: "100",
+                            }}
+                            className="log-link"
+                            to="/ResetPassword"
+                        >
+                            RESET PASSWORD!
                         </Link>
                     </div>
                 </div>

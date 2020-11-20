@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getList, acceptFriend, unfriend } from "../actions";
-
+import Profile from "./Profile";
 export default function Friends() {
     const dispatch = useDispatch();
 
@@ -30,88 +30,256 @@ export default function Friends() {
 
     return (
         <>
-            <h1 style={{ textAlign: "center" }}> Friends requests: </h1>
-            <div>
-                {wannabes &&
-                    wannabes.map((each) => (
-                        <div key={each.id}>
-                            <Link to={`/user/${each.id}`}>
-                                <img
+            <div style={{}}>
+                <div>
+                    <h1
+                        style={{
+                            textAlign: "center",
+                            fontWeight: "100",
+                            fontFamily: "sans-serif",
+                            letterSpacing: "3px",
+                            color: "white",
+                        }}
+                    >
+                        {" "}
+                        Friends requests:{" "}
+                    </h1>
+                    <div>
+                        {wannabes &&
+                            wannabes.map((each) => (
+                                <div
                                     style={{
-                                        maxWidth: "110px",
+                                        display: "flex",
+                                        width: "100%",
+                                        justifyContent: "center",
                                     }}
-                                    src={
-                                        each.image ||
-                                        "static/images/profile.png"
-                                    }
-                                />
-                                <br />
-                                <p style={{ marginTop: "5px" }}>
-                                    {each.first} {each.last}
-                                </p>
-                            </Link>
-                            <button
-                                onClick={() => dispatch(acceptFriend(each.id))}
-                            >
-                                Accept
-                            </button>
-                            <br></br>
-                            <button onClick={() => dispatch(unfriend(each.id))}>
-                                Reject
-                            </button>
-                        </div>
-                    ))}
-            </div>
+                                >
+                                    <div
+                                        // style={{
+                                        //     width: "1100px",
+                                        //     display: "flex",
+                                        //     flexWrap: "wrap",
+                                        //     justifyContent: "space-between",
+                                        // }}
+                                        key={each.id}
+                                    >
+                                        <div>
+                                            <Link to={`/user/${each.id}`}>
+                                                <Profile
+                                                    key={each.id}
+                                                    title={`Profile: ${each.last}`}
+                                                    imgUrl={each.image}
+                                                    firstName={each.first}
+                                                    lastName={each.last}
+                                                />
+                                            </Link>
 
-            <h1 style={{ textAlign: "center" }}> Sent requests: </h1>
-            <div>
-                {sentRequests &&
-                    sentRequests.map((each) => (
-                        <div key={each.id} className="section">
-                            <Link to={`/user/${each.id}`}>
-                                <img
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    marginBottom: "10px",
+                                                }}
+                                            >
+                                                <div style={{ margin: "5px" }}>
+                                                    <button
+                                                        className="link-header"
+                                                        onClick={() =>
+                                                            dispatch(
+                                                                acceptFriend(
+                                                                    each.id
+                                                                )
+                                                            )
+                                                        }
+                                                    >
+                                                        {" "}
+                                                        <div
+                                                            style={{
+                                                                marginTop:
+                                                                    "4px",
+                                                                fontFamily:
+                                                                    "sans-serif",
+                                                                fontWeight:
+                                                                    "bold",
+                                                            }}
+                                                        >
+                                                            Accept
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                                <div style={{ margin: "5px" }}>
+                                                    <button
+                                                        className="link-header"
+                                                        onClick={() =>
+                                                            dispatch(
+                                                                unfriend(
+                                                                    each.id
+                                                                )
+                                                            )
+                                                        }
+                                                    >
+                                                        <div
+                                                            style={{
+                                                                marginTop:
+                                                                    "4px",
+                                                                fontFamily:
+                                                                    "sans-serif",
+                                                                fontWeight:
+                                                                    "bold",
+                                                            }}
+                                                        >
+                                                            {" "}
+                                                            Reject
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+                </div>
+                <div style={{}}>
+                    {/* bjbKJBNFJSVJnjvnjdnvjnjdnvjJKNSDKJNCjhsnvjhdNFVKJDNFVJKNDFVKJDJKNVDJKNVDJFK>NVJDKNVKJDFNVK.JNDVJDV */}
+                    <h1
+                        style={{
+                            textAlign: "center",
+                            fontWeight: "100",
+                            fontFamily: "sans-serif",
+                            letterSpacing: "3px",
+                            color: "white",
+                        }}
+                    >
+                        {" "}
+                        Sent requests:{" "}
+                    </h1>
+                    <div>
+                        {sentRequests &&
+                            sentRequests.map((each) => (
+                                <div
                                     style={{
-                                        maxWidth: "110px",
+                                        display: "flex",
+                                        width: "100%",
+                                        justifyContent: "center",
                                     }}
-                                    src={
-                                        each.image ||
-                                        "static/images/profile.png"
-                                    }
-                                />
-                                <br />
-                                <p>
-                                    {each.first} {each.last}
-                                </p>
-                            </Link>
-                            <button onClick={() => dispatch(unfriend(each.id))}>
-                                Cancel
-                            </button>
-                        </div>
-                    ))}
-            </div>
-
-            {friends && <h1 style={{ textAlign: "center" }}> Friends: </h1>}
-            <div>
-                {friends &&
-                    friends.map((each) => (
-                        <div key={each.id}>
-                            <Link to={`/user/${each.id}`}>
-                                <img
-                                    src={
-                                        each.image ||
-                                        "static/images/profile.png"
-                                    }
-                                />
-                                <br />
-                                <p>
-                                    {each.first} {each.last}
-                                </p>
-                            </Link>
-                            <button onClick={() => dispatch(unfriend(each.id))}>
-                                Remove
-                            </button>
-                        </div>
-                    ))}
+                                >
+                                    <div key={each.id}>
+                                        <Link to={`/user/${each.id}`}>
+                                            <Profile
+                                                key={each.id}
+                                                title={`Profile: ${each.last}`}
+                                                imgUrl={each.image}
+                                                firstName={each.first}
+                                                lastName={each.last}
+                                            />
+                                        </Link>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                marginBottom: "10px",
+                                            }}
+                                        >
+                                            <div>
+                                                <button
+                                                    className="link-header"
+                                                    onClick={() =>
+                                                        dispatch(
+                                                            unfriend(each.id)
+                                                        )
+                                                    }
+                                                >
+                                                    {" "}
+                                                    <div
+                                                        style={{
+                                                            marginTop: "4px",
+                                                            fontFamily:
+                                                                "sans-serif",
+                                                            fontWeight: "bold",
+                                                        }}
+                                                    >
+                                                        Cancel
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+                </div>
+                <div>
+                    {/* BUEVuwrbvbaenvjnadbkjvnadnvjanfiuchwIUFCHwIEfchJfcjvjdnvjndvjndjvndhfvhdfvbd.hjfvbhjdfvbhdfbv */}
+                    {friends && (
+                        <h1
+                            style={{
+                                textAlign: "center",
+                                fontWeight: "100",
+                                fontFamily: "sans-serif",
+                                letterSpacing: "3px",
+                                color: "white",
+                            }}
+                        >
+                            {" "}
+                            Friends:{" "}
+                        </h1>
+                    )}
+                    <div>
+                        {friends &&
+                            friends.map((each) => (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        width: "100%",
+                                        justifyContent: "center",
+                                        marginBottom: "40px",
+                                    }}
+                                >
+                                    <div key={each.id}>
+                                        <Link to={`/user/${each.id}`}>
+                                            <Profile
+                                                key={each.id}
+                                                title={`Profile: ${each.last}`}
+                                                imgUrl={each.image}
+                                                firstName={each.first}
+                                                lastName={each.last}
+                                            />
+                                        </Link>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                marginBottom: "10px",
+                                            }}
+                                        >
+                                            <div>
+                                                <button
+                                                    className="link-header"
+                                                    onClick={() =>
+                                                        dispatch(
+                                                            unfriend(each.id)
+                                                        )
+                                                    }
+                                                >
+                                                    <div
+                                                        style={{
+                                                            marginTop: "4px",
+                                                            fontFamily:
+                                                                "sans-serif",
+                                                            fontWeight: "bold",
+                                                        }}
+                                                    >
+                                                        Remove
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+                </div>
             </div>
         </>
     );

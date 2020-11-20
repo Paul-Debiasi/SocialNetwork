@@ -41,16 +41,34 @@ export default class Registration extends React.Component {
     render() {
         console.log("this.state.error: ", this.state.error);
         return (
-            <div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
                 <div className="updated">
-                    <div></div>
-                    <h2>Keep Updated on the tech News !</h2>
+                    <h2 style={{ fontFamily: "sans-serif", fontWeight: "100" }}>
+                        Keep Updated on the tech News !
+                    </h2>
                 </div>
                 {this.state.error && <div>Oops, something went wrong!</div>}
-                <div className="reg-form">
-                    <div className="first-form">
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "560px",
+                        alignContent: "center",
+                    }}
+                    className="reg-form"
+                >
+                    <div className="first-form" style={{ width: "100%" }}>
                         <div className="fist-name">
                             <input
+                                autoComplete="off"
+                                style={{
+                                    width: "100%",
+                                    height: "35px",
+                                    backgroundColor: "black",
+                                    color: "#00FF41",
+                                    fontSize: "24px",
+                                }}
                                 name="first"
                                 placeholder="first name..."
                                 onChange={(e) => this.handleChange(e)}
@@ -58,6 +76,14 @@ export default class Registration extends React.Component {
                         </div>
                         <div className="last-name">
                             <input
+                                autoComplete="off"
+                                style={{
+                                    width: "100%",
+                                    height: "35px",
+                                    backgroundColor: "black",
+                                    color: "#00FF41",
+                                    fontSize: "24px",
+                                }}
                                 name="last"
                                 placeholder="last name..."
                                 onChange={(e) => this.handleChange(e)}
@@ -65,6 +91,13 @@ export default class Registration extends React.Component {
                         </div>
                         <div className="email-inp">
                             <input
+                                style={{
+                                    width: "100%",
+                                    height: "35px",
+                                    backgroundColor: "black",
+                                    color: "#00FF41",
+                                    fontSize: "24px",
+                                }}
                                 name="email"
                                 placeholder="email..."
                                 onChange={(e) => this.handleChange(e)}
@@ -72,6 +105,13 @@ export default class Registration extends React.Component {
                         </div>
                         <div className="psw-inp">
                             <input
+                                style={{
+                                    width: "100%",
+                                    height: "35px",
+                                    backgroundColor: "black",
+                                    color: "#00FF41",
+                                    fontSize: "24px",
+                                }}
                                 name="password"
                                 placeholder="password"
                                 type="password"
@@ -79,14 +119,29 @@ export default class Registration extends React.Component {
                             ></input>
                         </div>
                         <button
-                            className="reg-btn"
+                            style={{
+                                width: "100%",
+                                letterSpacing: "8px",
+                                fontSize: "20px",
+                                marginTop: "8px",
+                                marginBottom: "8px",
+                            }}
+                            className="link-header"
                             onClick={() => this.submit()}
                         >
-                            Register!
+                            <div style={{ marginTop: "2px" }}> Register!</div>
                         </button>
                         <div className="login-link">
                             <Link className="log-link" to="/login">
-                                Click here to Log in!
+                                <div
+                                    style={{
+                                        fontSize: "16px",
+                                        fontFamily: "sans-serif",
+                                    }}
+                                >
+                                    {" "}
+                                    onClick => logIn!
+                                </div>
                             </Link>
                         </div>
                     </div>

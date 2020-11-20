@@ -9,10 +9,28 @@ export default function Welcome() {
     return (
         <div>
             <div className="my-title">
-                <h1 className="title">Welcome To The Social-Dev</h1>
+                <h1
+                    style={{
+                        marginTop: "16px",
+                        marginBottom: "16px",
+                        fontFamily: "sans-serif",
+                        fontWeight: "200",
+                        letterSpacing: "4px",
+                    }}
+                    className="title"
+                >
+                    Welcome To The Social-Dev
+                </h1>
             </div>
-            <div></div>
-            <div className="wrap-logo">
+            <div
+                // style={{
+                //     width: "400px",
+                //     height: "400px",
+                //     overflow: "hidden",
+                //     borderRadius: "50%",
+                // }}
+                className="wrap-logo"
+            >
                 <img className="my-logo" src="static/images/logo.jpg" />
             </div>
             <HashRouter>
